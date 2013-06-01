@@ -1,12 +1,11 @@
 var express = require('express')
+  , socketio = require('socket.io')
+  , app = express()
   , http = require('http');
 
-var app = express();
 
-var server = http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express listening on '+app.get('port'));
-});
-var io = require('socket.io').listen(server);
+var server = http.createServer(app);
+var io = socketio.listen(server);
 
 //Config
 app.use(express.bodyParser());
@@ -21,7 +20,7 @@ app.configure(function(){
     app.set('port', 8888);
     app.use('/', express.static(__dirname + '/app'));
     app.use('/js', express.static(__dirname + '/app/js'));
-    app.use('/socket.io', express.static(__dirname + '/'));
+    //app.use('/socket.io', express.static(__dirname + '/'));
 });
 
 app.get('/', function (req, res) {
@@ -36,4 +35,4 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-app.listen(8888);
+server.listen(app.get('port'));

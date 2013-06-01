@@ -1,7 +1,7 @@
 var App = {};
 
 App.Config = {
-  ip: '172.20.10.4',
+  ip: '172.20.10.2',
   port: 8080
 }
 
@@ -13,9 +13,21 @@ App.User = {
 }
 
 //Login
+
+$(function() {
+	
+	if(localStorage.username) {
+		
+		$('#login').hide();
+		getLocation();
+		App.User.username = localStorage.username;
+	}
+});
+
 $('#loginBtn').click(function(){
   getLocation();
   App.User.username = $('#username').val();
+  localStorage.username = App.User.username;
   $('#login').hide();
 });
 

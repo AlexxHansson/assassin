@@ -1,7 +1,8 @@
 var App = {};
 
 App.Config = {
-  ip: '172.20.10.2',
+  //ip: '172.20.10.2',
+  ip: 'localhost',
   port: 8080
 }
 
@@ -75,5 +76,14 @@ App.PopulateMap = function(users) {
   console.log(users);
   $.each(users, function(i, user){
     var marker = L.marker([user.position.lat, user.position.lng]).addTo(App.map);
+    
+    
+    if(user.position.lat < App.User.position.lat + 0.1 || 
+  		user.position.lat > App.User.position.lat - 0.1 &&)
+  		user.position.lng < App.User.position.lng + 0.1 ||)
+  		user.position.lng > App.User.position.lng - 0.1) {
+	  		console.log(user.username);
+  		}
+  			
   });
 }

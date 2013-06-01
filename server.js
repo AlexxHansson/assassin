@@ -18,6 +18,8 @@ app.all('/*', function(req, res, next) {
 });
 */
 
+var users = [];
+
 app.configure(function(){
     app.set('port', 8080);
     app.use('/', express.static(__dirname + '/app'));
@@ -31,9 +33,13 @@ app.get('/', function (req, res) {
 
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.emit('message', { message: 'You are now connected!' });
+  socket.on('move', function (data) {
     console.log(data);
+  });
+  socket.on('login', function(data) {
+    users.push(data);
+    socket.emit('users', users);
   });
 });
 

@@ -10,14 +10,16 @@ var io = socketio.listen(server);
 //Config
 app.use(express.bodyParser());
 
+/*
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });
+*/
 
 app.configure(function(){
-    app.set('port', 8888);
+    app.set('port', 8080);
     app.use('/', express.static(__dirname + '/app'));
     app.use('/js', express.static(__dirname + '/app/js'));
     //app.use('/socket.io', express.static(__dirname + '/'));

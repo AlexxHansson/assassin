@@ -1,13 +1,18 @@
 var socket = io.connect('http://'+App.Config.ip+':'+App.Config.port);
-	
+
 socket.on('news', function (data) {
 	console.log(data);
 	socket.emit('move', { my: 'data' });
 });
 
 socket.on('users', function (data) {
-	App.PopulateMap(data);
-	console.log('New users!');
+	//App.PopulateMap(data);
+	console.log('New user!');
+	console.log(data);
+});
+
+socket.on('swag', function(){
+	console.log('swag');
 });
 
 socket.on('message', function (data){
@@ -31,4 +36,5 @@ function getUsers() {
 function userLogin(data) {
 	console.log('Logging in');
 	socket.emit('login', App.User);
+	socket.send('yolo');
 }

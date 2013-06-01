@@ -34,9 +34,15 @@ app.get('/', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
   socket.emit('message', { message: 'You are now connected!' });
+
   socket.on('move', function (data) {
     console.log(data);
   });
+
+  socket.on('yolo', function(){
+    socket.send('swag');
+  });
+
   socket.on('login', function(data) {
     users.push(data);
     socket.emit('users', users);

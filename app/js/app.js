@@ -31,7 +31,9 @@ $('#loginBtn').click(function(){
   $('#login').hide();
 });
 
-
+$('#map').click(function(){
+	socket.emit('yolo');
+});
 
 var x = document.getElementById("demo");
 

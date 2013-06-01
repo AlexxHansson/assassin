@@ -1,0 +1,23 @@
+{
+  "name": "assassin",
+  "version": "0.0.1",
+  "description": "GamePort Game",
+  "main": "index.html",
+  "dependencies": {
+    "express": "~3.2.5",
+    "socket.io": "~0.9.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexxHansson/assassin.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "9f558bdd05f59aed428899ac69c1203b7bfeb47e"
+}

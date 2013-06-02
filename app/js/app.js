@@ -109,7 +109,7 @@ App.PopulateMap = function(users) {
   	|| user.position.lng > App.User.position.lng - 0.1) {
 	  	console.log('near: '+user.username);
 	  	
-	  	$('#assasinate').append('<img src="http://www.gravatar.com/avatar/'+md5(App.User.email)+'" />').show();
+	  	$('#assasinate').append('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
   	}
   			
   });

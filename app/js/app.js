@@ -1,8 +1,9 @@
 var App = {};
 
 App.Config = {
-  //ip: '172.20.10.2',
-  ip: 'localhost',
+  ip: '172.20.10.4',
+  //ip: 'localhost',
+  //ip: '194.47.142.119',
   port: 8080
 }
 
@@ -13,27 +14,28 @@ App.User = {
   position: {lat:0, lng:0}
 }
 
-//Login
+App.Users = null;
 
+//Init
 $(function() {
 	
 	if(localStorage.username) {
 		
 		$('#login').hide();
 		getLocation();
+		userLogin();
+		getUsers();
 		App.User.username = localStorage.username;
 	}
 });
 
 $('#loginBtn').click(function(){
   getLocation();
+  userLogin();
+  getUsers();
   App.User.username = $('#username').val();
   localStorage.username = App.User.username;
   $('#login').hide();
-});
-
-$('#map').click(function(){
-	socket.emit('yolo');
 });
 
 var x = document.getElementById("demo");
@@ -49,38 +51,56 @@ function getLocation() {
 		x.innerHTML="Geolocation is not supported by this browser.";
 	}
 }
+
+
 	
 function showPosition(position) {
-  App.User.position.lat = position.coords.latitude;
-  App.User.position.lng = position.coords.longitude;
-
-	x.innerHTML="Username: "+App.User.username+"<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;	
+	if(App.Map) {
+		App.User.position.lat = position.coords.latitude;
+		App.User.position.lng = position.coords.longitude;
+		App.Map.setView([position.coords.latitude, position.coords.longitude], 15);
+	} else {
+		x.innerHTML="Username: "+App.User.username+"<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;	
 	
-	App.map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
-	
-	L.tileLayer('http://{s}.tile.cloudmade.com/cec90b3181b34d52a7b677e48ac6b136/997/256/{z}/{x}/{y}.png', {
-		maxZoom: 18
-	}).addTo(App.map);
-	
-	var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.map);
-
-  userLogin();
+		App.Map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
+		
+		L.tileLayer('http://{s}.tile.cloudmade.com/cec90b3181b34d52a7b677e48ac6b136/997/256/{z}/{x}/{y}.png', {
+			maxZoom: 18
+		}).addTo(App.Map);
+		
+		var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+	}
+  
 }
 
-function yolo() {
-  console.log('hello!');
+//Game Loop
+setInterval(function() {
+	console.log('Update');
+	
+	getLocation();
+	sendMove(App.User);
+    App.UpdateMap(App.Users);
+    //Collision
+    //
+}, 2000);
+
+App.UpdateMap = function(users) {
+	$.each(users, function(i, user){
+		
+		
+	});
 }
 
 App.PopulateMap = function(users) {
   console.log('Populating Map');
   console.log(users);
   $.each(users, function(i, user){
-    var marker = L.marker([user.position.lat, user.position.lng]).addTo(App.map);
+    App.Users[i].marker = L.marker([user.position.lat, user.position.lng]).addTo(App.Map);
     
     
     if(user.position.lat < App.User.position.lat + 0.1 || 
-  		user.position.lat > App.User.position.lat - 0.1 &&)
-  		user.position.lng < App.User.position.lng + 0.1 ||)
+  		user.position.lat > App.User.position.lat - 0.1 &&
+  		user.position.lng < App.User.position.lng + 0.1 ||
   		user.position.lng > App.User.position.lng - 0.1) {
 	  		console.log(user.username);
   		}

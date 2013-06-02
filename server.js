@@ -1,7 +1,8 @@
 var express = require('express')
   , socketio = require('socket.io')
   , app = express()
-  , http = require('http');
+  , http = require('http')
+  , $ = require('jquery');
 
 
 var server = http.createServer(app);
@@ -31,7 +32,6 @@ app.get('/', function (req, res) {
   //res.sendfile(__dirname + '/app/index.html');
 });
 
-
 io.sockets.on('connection', function (socket) {
   socket.emit('message', { message: 'You are now connected!' });
 
@@ -39,14 +39,28 @@ io.sockets.on('connection', function (socket) {
     console.log(data);
   });
 
-  socket.on('yolo', function(){
-    socket.send('swag');
+  socket.on('login', function(data) {
+    var exist = false;
+    $.each(users, function(i, item){
+      if(item.username == data.username) {
+        exist = true;
+      }
+    });
+
+    if(!exist) {
+      users.push(data);  
+    }
+    socket.broadcast.emit('newUser', data);
   });
 
-  socket.on('login', function(data) {
-    users.push(data);
-    socket.emit('users', users);
-  });
+  socket.on('command', function(data){
+    switch(data)
+    {
+      case 'getUsers':
+      socket.emit('users', users);
+      break;
+    }
+  })
 });
 
 server.listen(app.get('port'));

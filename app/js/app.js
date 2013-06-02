@@ -29,12 +29,12 @@ $(function() {
 	  	App.User.email = localStorage.email;
 		login();
 	}
-
-	$('#kill').click(function(e){
+		
+	$('#assasinate').on('click', '#kill', function() {
 		console.log('killing');
 		kill(App.KillUser);
-		App.KillUser = null;
-	});
+		App.KillUser = null;		
+	})
 });
 
 $('#loginBtn').click(function() {

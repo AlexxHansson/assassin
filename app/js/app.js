@@ -146,4 +146,10 @@ function distance(lat1, lon1, lat2, lon2) {
 }
 
 
+if (typeof(Number.prototype.toRad) === "undefined") {
+  Number.prototype.toRad = function() {
+    return this * Math.PI / 180;
+  }
+}
+
 

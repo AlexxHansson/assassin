@@ -1,8 +1,8 @@
 var App = {};
 
 App.Config = {
-  //ip: '172.20.10.4',
-  ip: 'localhost',
+  ip: '172.20.10.2',
+  //ip: 'localhost',
   //ip: '194.47.142.119',
   port: 8080
 }
@@ -23,8 +23,8 @@ $(function() {
 	if(localStorage.username
 	&& localStorage.email) {
 
- 		App.User.username = localStorage.username;
-  	App.User.email = localStorage.email;
+	 	App.User.username = localStorage.username;
+	  	App.User.email = localStorage.email;
 		login();
 	}
 });
@@ -37,33 +37,59 @@ $('#loginBtn').click(function() {
 
 function login() {
 	$('#login').hide();
-	getLocation();	
+	App.InitLocation();
+	//getLocation();
 	userLogin();
 	getUsers();
+
 }
 
 
 var x = document.getElementById("demo");
 
-function getLocation() {
-	
+App.InitLocation = function() {
 	if (navigator.geolocation) {
-	
-		navigator.geolocation.getCurrentPosition(showPosition);
-		
+		navigator.geolocation.getCurrentPosition(InitMap);
 	} else {
-	
 		x.innerHTML="Geolocation is not supported by this browser.";
 	}
 }
 
+function InitMap() {
+	App.User.position.lat = position.coords.latitude;
+	App.User.position.lng = position.coords.longitude;
+	App.Map = L.map('map').setView([App.User.position.lat, App.User.position.lng], 16);
 
+	L.tileLayer('http://{s}.tile.cloudmade.com/cec90b3181b34d52a7b677e48ac6b136/997/256/{z}/{x}/{y}.png', {
+		maxZoom: 18
+	}).addTo(App.Map);
+
+	//App.User.maker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+}
+
+//Update location
+function getLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(App.SavePosition);
+	} else {
+		x.innerHTML="Geolocation is not supported by this browser.";
+	}
+}
 	
-function showPosition(position) {
+App.SavePosition = function(position) {
+	App.User.position.lat = position.coords.latitude;
+	App.User.position.lng = position.coords.longitude;
+
+
+
+	//App.User.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+	//var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+	
+	/*
 	if(App.Map) {
 		App.User.position.lat = position.coords.latitude;
 		App.User.position.lng = position.coords.longitude;
-		App.Map.setView([position.coords.latitude, position.coords.longitude], 15);
+		//App.Map.setView([position.coords.latitude, position.coords.longitude], 15);
 	} else {
 		x.innerHTML="Username: "+App.User.username+"<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;	
 	
@@ -73,9 +99,9 @@ function showPosition(position) {
 			maxZoom: 18
 		}).addTo(App.Map);
 		
-		var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+		
 	}
-  
+  	*/
 }
 
 //Game Loop

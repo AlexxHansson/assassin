@@ -16,6 +16,7 @@ App.User = {
 }
 
 App.Users = null;
+App.UserLayer = L.layerGroup();
 
 //Init
 $(function() {
@@ -38,10 +39,8 @@ $('#loginBtn').click(function() {
 function login() {
 	$('#login').hide();
 	App.InitLocation();
-	//getLocation();
 	userLogin();
 	getUsers();
-
 }
 
 
@@ -55,7 +54,7 @@ App.InitLocation = function() {
 	}
 }
 
-function InitMap() {
+function InitMap(position) {
 	App.User.position.lat = position.coords.latitude;
 	App.User.position.lng = position.coords.longitude;
 	App.Map = L.map('map').setView([App.User.position.lat, App.User.position.lng], 16);
@@ -64,7 +63,7 @@ function InitMap() {
 		maxZoom: 18
 	}).addTo(App.Map);
 
-	//App.User.maker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+	var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
 }
 
 //Update location
@@ -80,66 +79,49 @@ App.SavePosition = function(position) {
 	App.User.position.lat = position.coords.latitude;
 	App.User.position.lng = position.coords.longitude;
 
-
-
-	//App.User.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
-	//var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
-	
-	/*
-	if(App.Map) {
-		App.User.position.lat = position.coords.latitude;
-		App.User.position.lng = position.coords.longitude;
-		//App.Map.setView([position.coords.latitude, position.coords.longitude], 15);
-	} else {
-		x.innerHTML="Username: "+App.User.username+"<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;	
-	
-		App.Map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
-		
-		L.tileLayer('http://{s}.tile.cloudmade.com/cec90b3181b34d52a7b677e48ac6b136/997/256/{z}/{x}/{y}.png', {
-			maxZoom: 18
-		}).addTo(App.Map);
-		
-		
-	}
-  	*/
+	x.innerHTML="Username: "+App.User.username+"<br>Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;	
 }
 
 //Game Loop
 setInterval(function() {
-	console.log('Update');
-	
 	getLocation();
 	sendMove(App.User);
-    App.UpdateMap(App.Users);
-    //Collision
-    //
-}, 2000);
+    getUsers();
+
+}, 1000);
 
 App.UpdateMap = function(users) {
-	$.each(users, function(i, user){
-		
-		
+	/*
+  	$.each(users, function(i, user){
+  		if(user.e) {
+  			var newLatLng = new L.LatLng(user.position.lat, user.position.lng);
+	  		console.log(App.Users[i]);
+		    App.Users[i].marker.setLatLng(newLatLng);	
+  		}
 	});
+*/
 }
 
 App.PopulateMap = function(users) {
-  console.log('Populating Map');
-  console.log(users);
-  $.each(users, function(i, user){
-    App.Users[i].marker = L.marker([user.position.lat, user.position.lng]).addTo(App.Map);
-    
+  App.UserLayer.clearLayers();
 
-    if(user.position.lat < App.User.position.lat + 0.1 
-    || user.position.lat > App.User.position.lat - 0.1
-  	&& user.position.lng < App.User.position.lng + 0.1
-  	|| user.position.lng > App.User.position.lng - 0.1
-  	&& user.email != App.User.email) {
-	  	console.log('near: '+user.username);
-	  	
-	  	$('#assasinate').append('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
-  	}
-  			
-  });
+  	$.each(users, function(i, user){
+	    var marker = L.marker([user.position.lat, user.position.lng]);
+	    App.UserLayer.addLayer(marker);
+
+	    if(user.position.lat < App.User.position.lat + 0.1 
+	    || user.position.lat > App.User.position.lat - 0.1
+	  	&& user.position.lng < App.User.position.lng + 0.1
+	  	|| user.position.lng > App.User.position.lng - 0.1
+	  	&& user.email != App.User.email) {
+		  	console.log('near: '+user.username);
+		  	
+		  	$('#assasinate').html('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
+	  	}
+	});
+
+	App.UserLayer.addTo(App.Map);
+  
 }
 
 

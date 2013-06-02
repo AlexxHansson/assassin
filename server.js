@@ -36,7 +36,12 @@ io.sockets.on('connection', function (socket) {
   socket.emit('message', { message: 'You are now connected!' });
 
   socket.on('move', function (data) {
-    console.log(data);
+
+    $.each(users, function(i, item){
+      if(item.email == data.email) {
+        users[i].position = data.position;
+      }
+    });
   });
 
   socket.on('login', function(data) {

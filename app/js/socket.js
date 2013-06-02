@@ -24,9 +24,22 @@ function getUsers() {
 }
 
 function kill(data) {
-	console.log('kill'+data);
 	socket.emit('kill', data);
 }
+
+socket.on('kill', function (data){
+	if(App.User.email == data.email) {
+		$('#deadscreen').show();
+		$('#assasinate').css("display", "none");
+		App.User.dead = true;
+	}
+
+	$.each(App.Users, function(i, user){
+		if(data.email == user.email) {
+			App.Users.splice(i, 1);
+		}
+	});
+});
 
 socket.on('users', function (data) {
 	console.log('Loading users!');

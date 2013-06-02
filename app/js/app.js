@@ -1,7 +1,7 @@
 var App = {};
 
 App.Config = {
-  ip: '172.20.10.2',
+  ip: '172.20.10.4',
   //ip: 'localhost',
   //ip: '194.47.142.119',
   port: 8080
@@ -12,7 +12,8 @@ App.User = {
   username: null,
   email: null,
   kills: 0,
-  position: {lat:0, lng:0}
+  position: {lat:0, lng:0},
+  dead: false
 }
 
 App.Users = null;
@@ -31,10 +32,10 @@ $(function() {
 	}
 		
 	$('#assasinate').on('click', '#kill', function() {
-		console.log('killing');
 		kill(App.KillUser);
-		App.KillUser = null;		
-	})
+		App.KillUser = null;
+		$('#assasinate').hide();
+	});
 });
 
 $('#loginBtn').click(function() {
@@ -91,11 +92,12 @@ App.SavePosition = function(position) {
 
 //Game Loop
 setInterval(function() {
-	getLocation();
-	sendMove(App.User);
-    getUsers();
-
-}, 5000);
+	if(!App.User.dead) {
+		getLocation();
+		sendMove(App.User);
+	    getUsers();	
+	}
+}, 1000);
 
 App.UpdateMap = function(users) {
 	/*

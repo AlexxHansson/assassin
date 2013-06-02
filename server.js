@@ -46,8 +46,12 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('kill', function(data) {
     $.each(users, function(i, item){
-      if(item.email == data.email) {
-        users.splice(i, 1);
+      if(typeof(item) != 'undefined') {
+        if(item.email == data.email) {
+          socket.broadcast.emit('kill', item);
+          users.splice(i, 1);
+
+        }  
       }
     });
   });

@@ -112,16 +112,10 @@ App.PopulateMap = function(users) {
 
 		    var d = distance(App.User.position.lat, App.User.position.lng, user.position.lat, user.position.lng);
 		    console.log((Math.floor(d*1000)));
-
-		    if(user.position.lat < App.User.position.lat + 0.1 
-		    || user.position.lat > App.User.position.lat - 0.1
-		  	&& user.position.lng < App.User.position.lng + 0.1
-		  	|| user.position.lng > App.User.position.lng - 0.1
-		  	&& user.email != App.User.email) {
-			  	//console.log('near: '+user.username);
-			  	
-			  	$('#assasinate').html('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
-		  	}
+		    
+		    if(d < 10) {
+			    $('#assasinate').html('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
+		    }
   		}
 	    
 	});

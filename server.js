@@ -44,6 +44,14 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
+  socket.on('kill', function(data) {
+    $.each(users, function(i, item){
+      if(item.email == data.email) {
+        users.splice(i, 1);
+      }
+    });
+  }
+
   socket.on('login', function(data) {
     var exist = false;
     $.each(users, function(i, item){

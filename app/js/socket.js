@@ -23,6 +23,10 @@ function getUsers() {
 	socket.emit('command', 'getUsers');
 }
 
+function kill(data) {
+	socket.emit('kill', data);
+}
+
 socket.on('users', function (data) {
 	console.log('Loading users!');
 	App.Users = data;

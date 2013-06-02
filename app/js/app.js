@@ -111,9 +111,9 @@ App.PopulateMap = function(users) {
 		    App.UserLayer.addLayer(marker);
 
 		    var d = distance(App.User.position.lat, App.User.position.lng, user.position.lat, user.position.lng);
-		    console.log((Math.floor(d*1000)));
+		    var dist = (Math.floor(d*1000));
 		    
-		    if(d < 10) {
+		    if(dist < 10) {
 			    $('#assasinate').html('<a class="btn btn-large btn-danger" href="">Assasinate</a><img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
 		    }
   		}

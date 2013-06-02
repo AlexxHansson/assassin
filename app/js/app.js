@@ -114,7 +114,7 @@ App.PopulateMap = function(users) {
 		    console.log((Math.floor(d*1000)));
 		    
 		    if(d < 10) {
-			    $('#assasinate').html('<a class="btn btn-large btn-danger" href="">Assasinate</a><img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
+			    $('#assasinate').html('<a class="btn btn-large btn-danger" href="">Assasinate '+user.username+'</a><img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
 		    }
   		}
 	    

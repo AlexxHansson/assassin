@@ -106,18 +106,24 @@ App.PopulateMap = function(users) {
   App.UserLayer.clearLayers();
 
   	$.each(users, function(i, user){
-	    var marker = L.marker([user.position.lat, user.position.lng]);
-	    App.UserLayer.addLayer(marker);
+  		if(user.email != App.User.email) {
+  			var marker = L.marker([user.position.lat, user.position.lng]);
+		    App.UserLayer.addLayer(marker);
 
-	    if(user.position.lat < App.User.position.lat + 0.1 
-	    || user.position.lat > App.User.position.lat - 0.1
-	  	&& user.position.lng < App.User.position.lng + 0.1
-	  	|| user.position.lng > App.User.position.lng - 0.1
-	  	&& user.email != App.User.email) {
-		  	console.log('near: '+user.username);
-		  	
-		  	$('#assasinate').html('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
-	  	}
+		    var d = distance(App.User.position.lat, App.User.position.lng, user.position.lat, user.position.lng);
+		    console.log(d);
+
+		    if(user.position.lat < App.User.position.lat + 0.1 
+		    || user.position.lat > App.User.position.lat - 0.1
+		  	&& user.position.lng < App.User.position.lng + 0.1
+		  	|| user.position.lng > App.User.position.lng - 0.1
+		  	&& user.email != App.User.email) {
+			  	//console.log('near: '+user.username);
+			  	
+			  	$('#assasinate').html('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
+		  	}
+  		}
+	    
 	});
 
 	App.UserLayer.addTo(App.Map);

@@ -111,7 +111,7 @@ App.PopulateMap = function(users) {
 		    App.UserLayer.addLayer(marker);
 
 		    var d = distance(App.User.position.lat, App.User.position.lng, user.position.lat, user.position.lng);
-		    console.log(d);
+		    console.log((Math.floor(d*1000)));
 
 		    if(user.position.lat < App.User.position.lat + 0.1 
 		    || user.position.lat > App.User.position.lat - 0.1
@@ -144,7 +144,6 @@ function distance(lat1, lon1, lat2, lon2) {
 	var d = R * c;
 	return d;
 }
-
 
 if (typeof(Number.prototype.toRad) === "undefined") {
   Number.prototype.toRad = function() {

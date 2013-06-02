@@ -17,6 +17,7 @@ App.User = {
 
 App.Users = null;
 App.UserLayer = L.layerGroup();
+App.KillUser = null;
 
 //Init
 $(function() {
@@ -28,6 +29,12 @@ $(function() {
 	  	App.User.email = localStorage.email;
 		login();
 	}
+
+	$('#kill').click(function(e){
+		console.log('killing');
+		kill(App.KillUser);
+		App.KillUser = null;
+	});
 });
 
 $('#loginBtn').click(function() {
@@ -88,7 +95,7 @@ setInterval(function() {
 	sendMove(App.User);
     getUsers();
 
-}, 1000);
+}, 5000);
 
 App.UpdateMap = function(users) {
 	/*
@@ -113,8 +120,10 @@ App.PopulateMap = function(users) {
 		    var d = distance(App.User.position.lat, App.User.position.lng, user.position.lat, user.position.lng);
 		    var dist = (Math.floor(d*1000));
 		    
+
 		    if(dist < 10) {
-			    $('#assasinate').html('<a class="btn btn-large btn-danger" href="">Assasinate</a><img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
+		    	App.KillUser = user;
+			    $('#assasinate').html('<a id="kill" class="btn btn-large btn-danger" href="#">Assasinate '+user.username+'</a><img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();
 		    }
   		}
 	    

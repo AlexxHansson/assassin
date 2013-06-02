@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
         users.splice(i, 1);
       }
     });
-  }
+  });
 
   socket.on('login', function(data) {
     var exist = false;

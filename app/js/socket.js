@@ -24,6 +24,7 @@ function getUsers() {
 }
 
 function kill(data) {
+	console.log('kill'+data);
 	socket.emit('kill', data);
 }
 

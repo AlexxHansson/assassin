@@ -13,7 +13,21 @@
   
   <style type="text/css" media="screen">
   	#map { height: 400px; }
+  	#assasinate {
+			width: 200px;
+			text-align: center;
+			background: #eee;
+			padding: 30px;
+			margin: 30px auto;
+			display: none;
+  	}
+  	
+  	#assasinate img {
+	  	margin-top: 20px;
+  	}
   </style>
+  
+  
 	
 </head>
 <body>
@@ -22,8 +36,10 @@
     <p id="demo">State your name, murderer...</p>
     <div id="login" class="form-inline">
       <input type="text" id="username" class="input-small" placeholder="Username" />
+      <input type="text" id="email" class="input-small" placeholder="Email" />
       <button id="loginBtn">Log in</button>
     </div>
+    <div id="assasinate"><a class="btn btn-large btn-danger" href="">Assasinate</a></div>
     <div id="map"></div>
   </div>
 
@@ -33,6 +49,7 @@
 <script src="js/bootstrap.min.js"></script>
 <!--<script src="http://172.20.10.2:8080/socket.io/socket.io.js"></script>-->
 <script src="socket.io/socket.io.js"></script>
+<script src="js/md5.js"></script>
 <script src="js/app.js"></script>
 <script src="js/socket.js"></script>
 

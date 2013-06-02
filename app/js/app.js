@@ -1,8 +1,8 @@
 var App = {};
 
 App.Config = {
-  ip: '172.20.10.4',
-  //ip: 'localhost',
+  //ip: '172.20.10.4',
+  ip: 'localhost',
   //ip: '194.47.142.119',
   port: 8080
 }
@@ -10,6 +10,7 @@ App.Config = {
 App.User = {
   id: 1,
   username: null,
+  email: null,
   kills: 0,
   position: {lat:0, lng:0}
 }
@@ -18,25 +19,29 @@ App.Users = null;
 
 //Init
 $(function() {
-	
-	if(localStorage.username) {
-		
-		$('#login').hide();
-		getLocation();
-		userLogin();
-		getUsers();
-		App.User.username = localStorage.username;
+
+	if(localStorage.username
+	&& localStorage.email) {
+
+ 		App.User.username = localStorage.username;
+  	App.User.email = localStorage.email;
+		login();
 	}
 });
 
-$('#loginBtn').click(function(){
-  getLocation();
-  userLogin();
-  getUsers();
-  App.User.username = $('#username').val();
-  localStorage.username = App.User.username;
-  $('#login').hide();
+$('#loginBtn').click(function() {
+ 	localStorage.username = App.User.username = $('#username').val();
+  localStorage.email = App.User.email = $('#email').val();
+  login();
 });
+
+function login() {
+	$('#login').hide();
+	getLocation();	
+	userLogin();
+	getUsers();
+}
+
 
 var x = document.getElementById("demo");
 
@@ -97,13 +102,20 @@ App.PopulateMap = function(users) {
   $.each(users, function(i, user){
     App.Users[i].marker = L.marker([user.position.lat, user.position.lng]).addTo(App.Map);
     
-    
-    if(user.position.lat < App.User.position.lat + 0.1 || 
-  		user.position.lat > App.User.position.lat - 0.1 &&
-  		user.position.lng < App.User.position.lng + 0.1 ||
-  		user.position.lng > App.User.position.lng - 0.1) {
-	  		console.log(user.username);
-  		}
+
+    if(user.position.lat < App.User.position.lat + 0.1 
+    || user.position.lat > App.User.position.lat - 0.1
+  	&& user.position.lng < App.User.position.lng + 0.1
+  	|| user.position.lng > App.User.position.lng - 0.1) {
+	  	console.log('near: '+user.username);
+	  	
+	  	$('#assasinate').append('<img src="http://www.gravatar.com/avatar/'+md5(App.User.email)+'" />').show();
+  	}
   			
   });
 }
+
+
+
+
+

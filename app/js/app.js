@@ -106,7 +106,8 @@ App.PopulateMap = function(users) {
     if(user.position.lat < App.User.position.lat + 0.1 
     || user.position.lat > App.User.position.lat - 0.1
   	&& user.position.lng < App.User.position.lng + 0.1
-  	|| user.position.lng > App.User.position.lng - 0.1) {
+  	|| user.position.lng > App.User.position.lng - 0.1
+  	&& user.email != App.User.email) {
 	  	console.log('near: '+user.username);
 	  	
 	  	$('#assasinate').append('<img src="http://www.gravatar.com/avatar/'+md5(user.email)+'" />').show();

@@ -2,8 +2,8 @@ var App = {};
 
 App.Config = {
   //ip: '172.20.10.4',
-  ip: 'localhost',
-  //ip: 'ronnebygatan.no-ip.org'
+  //ip: 'localhost',
+  ip: 'ronnebygatan.no-ip.org'
   port: 8080
 }
 

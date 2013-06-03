@@ -1,9 +1,9 @@
 var App = {};
 
 App.Config = {
-  ip: '172.20.10.4',
-  //ip: 'localhost',
-  //ip: '194.47.142.119',
+  //ip: '172.20.10.4',
+  ip: 'localhost',
+  //ip: 'ronnebygatan.no-ip.org'
   port: 8080
 }
 
@@ -71,7 +71,7 @@ function InitMap(position) {
 		maxZoom: 18
 	}).addTo(App.Map);
 
-	var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
+	//var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(App.Map);
 }
 
 //Update location
@@ -114,6 +114,10 @@ App.UpdateMap = function(users) {
 App.PopulateMap = function(users) {
   App.UserLayer.clearLayers();
 
+	var usermarker = L.marker([App.User.position.lat, App.User.position.lng]);
+  App.UserLayer.addLayer(usermarker);
+
+
   	$.each(users, function(i, user){
   		if(user.email != App.User.email) {
   			var marker = L.marker([user.position.lat, user.position.lng]);
@@ -130,7 +134,6 @@ App.PopulateMap = function(users) {
   		}
 	    
 	});
-
 	App.UserLayer.addTo(App.Map);
   
 }
